@@ -1,104 +1,57 @@
-MODULE_NAME = koosvc-opencv
+include $(NVT_PRJCFG_MODEL)
+include $(NVT_PRJCFG_MODEL_CFG)
 
-# DIRs
-VOS_DRIVER_DIR = $(NVT_VOS_DIR)/drivers
-HDAL_SAMPLE_DIR = $(NVT_HDAL_DIR)/samples
-RTOS_OUTPUT_DIR = $(HDAL_SAMPLE_DIR)/output
-# INCs
-VOS_INC_PATH = $(VOS_DRIVER_DIR)/include
-HDAL_INC_PATH = $(NVT_HDAL_DIR)/include
-HDAL_LIB_PATH = $(NVT_HDAL_DIR)/output
-# INC FLAGs
-EXTRA_INCLUDE += -I$(HDAL_INC_PATH) -I$(VOS_INC_PATH)
-.PHONY: all clean
-###############################################################################
-# Linux Makefile                                                              #
-###############################################################################
-ifeq ($(NVT_PRJCFG_CFG),Linux)
 #--------- ENVIRONMENT SETTING --------------------
-WARNING		= -Wall -Wundef -Wsign-compare -Wno-missing-braces -Wstrict-prototypes -Werror
-COMPILE_OPTS	=  -I. -O2 -fPIC -ffunction-sections -fdata-sections -D__LINUX
-C_CFLAGS	= $(PLATFORM_CFLAGS) $(COMPILE_OPTS) $(WARNING) $(EXTRA_INCLUDE)
-LD_FLAGS	= -L$(HDAL_LIB_PATH) -lhdal -lpthread
+$(info ************$(INCLUDE_DIR)********)
+#
+$(info ************$(NVT_PRJCFG_MODEL)********)
+
+INCLUDES	= -I$(INCLUDE_DIR)
+INCLUDES	+= -I$(INCLUDE_DIR)/../external/__install/include/opencv4
+INCLUDES	+= -I$(INCLUDE_DIR)/../external/source/nvtinfo
+WARNING		= -Wall -Wundef -Wsign-compare -Wno-missing-braces
+COMPILE_OPTS	= $(INCLUDES) -I -O2 -fPIC -ffunction-sections -fdata-sections
+CPPFLAGS	= 
+CFLAGS		= $(PLATFORM_CFLAGS) $(PRJCFG_CFLAGS)
+C_FLAGS		= $(COMPILE_OPTS) $(CPPFLAGS) $(CFLAGS) $(WARNING)
+LIBRARY_DIR0	= $(INCLUDE_DIR)/../output
+LD_FLAGS	= -L$(LIBRARY_DIR) -lopencv_shape -lopencv_stitching  -lopencv_dnn -lopencv_objdetect -lopencv_calib3d -lopencv_features2d -lopencv_videoio -lopencv_imgcodecs -lopencv_video -lopencv_photo -lopencv_ml -lopencv_imgproc -lopencv_flann -lopencv_core 
+LD_FLAGS	+= -L$(LIBRARY_DIR0) -lnvtinfo
 #--------- END OF ENVIRONMENT SETTING -------------
-LIB_NAME = $(MODULE_NAME)
-SRC = koosvc-opencv.c
 
+#-lopencv_superres  -lopencv_videostab  -lopencv_highgui 
+DEP_LIBRARIES :=nvt@ext@lib@opencv
 
-OBJ = $(SRC:.c=.o)
+#--------- Compiling -------------------
+BIN = koosvc-opencv
+SRC = koosvc-opencv.cpp
 
-ifeq ("$(wildcard *.c */*.c)","")
+OBJ = $(SRC:.cpp=.o)
+
+.PHONY: all clean install
+
+ifeq ("$(wildcard *.c *.cpp */*.c */*.cpp)","")
 all:
-	@echo "nothing to be done for '$(OUTPUT_NAME)'"
+	@echo ">>> Skip"
 clean:
-	@echo "nothing to be done for '$(OUTPUT_NAME)'"
+	@echo ">>> Skip"
+
 else
-all: $(LIB_NAME)
+all: $(BIN)
 
-$(LIB_NAME): $(OBJ)
-	@echo Creating $@...
-	@$(CC) -o $@ $(OBJ) $(LD_FLAGS)
-	@$(NM) -n $@ > $@.sym
-	@$(STRIP) $@
-	@$(OBJCOPY) -R .comment -R .note.ABI-tag -R .gnu.version $@
+$(BIN): $(OBJ)
+	$(CXX) -o $@ $(OBJ) $(LD_FLAGS)
+	$(NM) -n $@ > $@.sym
+	$(STRIP) $@
+	$(OBJCOPY) -R .comment -R .note.ABI-tag -R .gnu.version $@
 
-%.o: %.c
-	@echo Compiling $<
-	@$(CC) $(C_CFLAGS) -c $< -o $@
+%.o: %.cpp
+	$(CXX) $(C_FLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(LIB_NAME) $(OBJ) $(LIB_NAME).sym *.o *.a *.so*
+	rm -vf $(BIN) $(OBJ) $(BIN).sym *.o *.a *.so*
 endif
 
 install:
-	@cp -avf $(LIB_NAME) $(ROOTFS_DIR)/rootfs/usr/bin
-
-###############################################################################
-# rtos Makefile                                                               #
-###############################################################################
-else ifeq ($(NVT_PRJCFG_CFG),rtos)
-#--------- ENVIRONMENT SETTING --------------------
-# DIRs
-RTOS_KERNEL_DIR = $(KERNELDIR)/lib/FreeRTOS
-RTOS_LIB_DIR = $(KERNELDIR)/lib
-RTOS_CURR_DEMO_DIR = $(KERNELDIR)/demos/novatek/na51055
-RTOS_POSIX_DIR = $(KERNELDIR)/lib/FreeRTOS-Plus-POSIX
-RTOS_POSIX_SRC_DIR = $(RTOS_POSIX_DIR)/source
-
-#INCs for C_CFLAGS
-
-EXTRA_INCLUDE += \
-	-I$(RTOS_LIB_DIR) \
-	-I$(RTOS_KERNEL_DIR)/portable/GCC/ARM_CA9  \
-	-I$(RTOS_KERNEL_DIR)/include \
-	-I$(RTOS_KERNEL_DIR)/include/private \
-	-I$(RTOS_CURR_DEMO_DIR)/include \
-	-I$(RTOS_POSIX_DIR)/include \
-	-I$(RTOS_POSIX_DIR)/include/portable/novatek \
-	-I$(LIBRARY_DIR)/include
-
-C_CFLAGS = $(PLATFORM_CFLAGS) $(EXTRA_INCLUDE) -Wno-format
-#--------- END OF ENVIRONMENT SETTING -------------
-LIB_NAME = lib$(MODULE_NAME).a
-SRC = video_record.c
-
-OBJ = $(SRC:.c=.o)
-
-all: $(LIB_NAME)
-
-$(LIB_NAME): $(OBJ)
-	@echo Creating $@...
-	@$(AR) rcsD $@ $(OBJ)
-	@$(BUILD_DIR)/nvt-tools/nvt-ld-op --arc-sha1 $@
-
-%.o: %.c
-	@echo Compiling $<
-	@$(CC) $(C_CFLAGS) -c $< -o $@
-
-clean:
-	@rm -f $(LIB_NAME) $(OBJ) $(LIB_NAME).sym *.o *.a *.so*
-
-install:
-	@mkdir -p $(RTOS_OUTPUT_DIR)
-	@cp -avf $(LIB_NAME) $(RTOS_OUTPUT_DIR)
-endif
+	@echo ">>>>>>>>>>>>>>>>>>> $@ >>>>>>>>>>>>>>>>>>>"
+	@cp -avf $(BIN) $(ROOTFS_DIR)/rootfs/bin/
