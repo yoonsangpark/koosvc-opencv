@@ -14,9 +14,11 @@ COMPILE_OPTS	= $(INCLUDES) -I -O2 -fPIC -ffunction-sections -fdata-sections
 CPPFLAGS	= 
 CFLAGS		= $(PLATFORM_CFLAGS) $(PRJCFG_CFLAGS)
 C_FLAGS		= $(COMPILE_OPTS) $(CPPFLAGS) $(CFLAGS) $(WARNING)
+
 LIBRARY_DIR0	= $(INCLUDE_DIR)/../output
-LD_FLAGS	= -L$(LIBRARY_DIR) -lopencv_shape -lopencv_stitching  -lopencv_dnn -lopencv_objdetect -lopencv_calib3d -lopencv_features2d -lopencv_videoio -lopencv_imgcodecs -lopencv_video -lopencv_photo -lopencv_ml -lopencv_imgproc -lopencv_flann -lopencv_core 
-LD_FLAGS	+= -L$(LIBRARY_DIR0) -lnvtinfo
+LD_FLAGS	+= -L$(LIBRARY_DIR0) 
+
+LD_FLAGS	= -L$(LIBRARY_DIR) -lopencv_core 
 #--------- END OF ENVIRONMENT SETTING -------------
 
 #-lopencv_superres  -lopencv_videostab  -lopencv_highgui 
