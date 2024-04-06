@@ -9,10 +9,12 @@ using namespace std;
 using namespace cv;
 
 
-//#define mp4_filename "/mnt/sd2/code/hdal/samples/koosvc-opencv/1920-1080-240405.mp4"
-//#define mp4_filename "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.avi"
-//#define mp4_filename "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
-#define mp4_filename "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
+#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/1920-1080-240405.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch01.avi"
 
 int main(void)
 {
@@ -20,7 +22,8 @@ int main(void)
 
 	cout << "Built with OpenCV " << CV_VERSION << endl;
 
-	VideoCapture cap(mp4_filename);
+	VideoCapture cap(src_name);
+	CV_Assert(cap.isOpened());
 
 	if (!cap.isOpened()) {
 		cerr << "Camera open failed" << endl;
