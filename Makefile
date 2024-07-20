@@ -16,7 +16,7 @@ CFLAGS		= $(PLATFORM_CFLAGS) $(PRJCFG_CFLAGS)
 C_FLAGS		= $(COMPILE_OPTS) $(CPPFLAGS) $(CFLAGS) $(WARNING)
 
 LIBRARY_DIR0	= $(INCLUDE_DIR)/../output
-LD_FLAGS	+= -L$(LIBRARY_DIR0) -lopencv_core -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc
+LD_FLAGS	+= -L$(LIBRARY_DIR0) -lopencv_core -lopencv_imgcodecs -lopencv_imgproc
 #--------- END OF ENVIRONMENT SETTING -------------
 
 #-lopencv_superres  -lopencv_videostab  -lopencv_highgui 
