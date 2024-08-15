@@ -9,15 +9,17 @@ using namespace std;
 using namespace cv;
 
 
-#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/1920-1080-240405.mp4"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.avi"
-//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
+#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch.avi"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch01.avi"
 
 int main(void)
 {
+
+#if 0
 	Mat img = imread(src_name, IMREAD_COLOR);
 
 	CV_Assert(img.data);
@@ -35,8 +37,9 @@ int main(void)
 	
 	cout << "depth() : " << img.depth() << endl;
 	cout << "channels() : " << img.channels() << endl;
+#endif
 
-#if 0	
+#if 1	
 	Mat frame, edge;
 
 	cout << "Built with OpenCV " << CV_VERSION << endl;
