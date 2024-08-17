@@ -11,10 +11,14 @@ using namespace cv;
 
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/1920-1080-240405.mp4"
-//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.avi"
-#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample00.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/sample.mp4"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch.avi"
-//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch01.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch00.avi"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_640_480_1_h265.mp4"
+#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_720_480_1_h265.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
 
 int main(void)
 {
@@ -42,6 +46,8 @@ int main(void)
 #if 1	
 	Mat frame, edge;
 
+	//cout << cv::getBuildInformation() << endl;
+
 	cout << "Built with OpenCV " << CV_VERSION << endl;
 
 	VideoCapture cap(src_name);
@@ -52,16 +58,20 @@ int main(void)
 		return -1;
 	}
 
+
+	double frame_rate = cap.get(CAP_PROP_FPS);
+	cout << frame_rate << endl;
+
 	
 	while (true) {
 		cap >> frame;
 
 		if (frame.empty()) {
-			cerr << "Frame empty!" << endl;
+			cerr << endl << "Frame empty!" << endl;
 			break;
 		}
-
-        	Canny(frame, edge, 50, 150);
+		cout << ".";
+        	//Canny(frame, edge, 50, 150);
 
 	}
 
