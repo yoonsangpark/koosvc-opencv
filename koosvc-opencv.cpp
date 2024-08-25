@@ -16,9 +16,9 @@ using namespace cv;
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch.avi"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/stopwatch00.avi"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_640_480_1_h265.mp4"
-#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_720_480_1_h265.mp4"
+//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_720_480_1_h265.mp4"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
-//#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
+#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1920_1080_1_h265.mp4"
 
 int main(void)
 {
@@ -70,7 +70,7 @@ int main(void)
 			cerr << endl << "Frame empty!" << endl;
 			break;
 		}
-		cout << ".";
+		cout << frame.cols << " * " << frame.rows << endl;
         	//Canny(frame, edge, 50, 150);
 
 	}
