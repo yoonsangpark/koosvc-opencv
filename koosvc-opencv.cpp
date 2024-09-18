@@ -20,6 +20,8 @@ using namespace cv;
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
 #define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1920_1080_1_h265.mp4"
 
+CascadeClassifier face_cascade;
+
 int main(void)
 {
 
