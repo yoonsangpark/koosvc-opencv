@@ -49,12 +49,9 @@ int main(void)
 #endif
 
 #if 1	
-	Mat frame, fgMask;
-
-	Ptr<BackgroundSubtractor> pMOG; //MOG Background subtractor
-	pMOG = createBackgroundSubtractorMOG();
-
-	//cout << cv::getBuildInformation() << endl;
+	Mat frame, grey, fa, fb, fc;
+	//Size frsz(1280, 720); //HD
+	Size frsz(640, 480); //HD
 
 	cout << "Built with OpenCV " << CV_VERSION << endl;
 
@@ -66,7 +63,6 @@ int main(void)
 		return -1;
 	}
 
-
 	double frame_rate = cap.get(CAP_PROP_FPS);
 	cout << frame_rate << endl;
 
@@ -74,16 +70,33 @@ int main(void)
 	while (true) {
 		cap >> frame;
 
-		pMOG->apply(frame, fgMask);
-		cout << "createBackgroundSubtractorMOG" << endl;
-
-		if (frame.empty()) {
+		if (frame.empty())  {
 			cerr << endl << "Frame empty!" << endl;
 			break;
 		}
 		cout << frame.cols << " * " << frame.rows << endl;
         	//Canny(frame, edge, 50, 150);
 
+		//Setep1
+		cvtColor(frame, grey, COLOR_RGB2GRAY);
+		frame.release();
+
+		//Step2
+		resize(grey, fa, frsz);
+		grey.release();
+
+		//Step3
+		fb = fa;
+		fc = fa;
+
+		cout << "fa : " << fa.cols << " * " << fa.rows << endl;
+		cout << "fb : " << fb.cols << " * " << fb.rows << endl;
+		cout << "fc : " << fc.cols << " * " << fc.rows << endl;
+
+		//Step4
+		fa.release();
+		fb.release();
+		fc.release();
 	}
 
 	cap.release();
