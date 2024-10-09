@@ -18,7 +18,7 @@ C_FLAGS		= $(COMPILE_OPTS) $(CPPFLAGS) $(CFLAGS) $(WARNING)
 LIBRARY_DIR0	= $(INCLUDE_DIR)/../output
 LIB_FFMPEG_DIR	= $(INCLUDE_DIR)/../external/__install/lib
 LIB_FFMPEG	= -lavcodec -lavformat -lavutil -lswscale -lswresample
-LIB_OPENCV	= -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_objdetect -lopencv_calib3d -lopencv_dnn -lopencv_features2d -lopencv_flann
+LIB_OPENCV	= -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_bgsegm -lopencv_video -lopencv_objdetect -lopencv_calib3d -lopencv_dnn -lopencv_features2d -lopencv_flann
 LD_FLAGS	+= -L$(LIBRARY_DIR0) -L$(LIB_FFMPEG_DIR) $(LIB_FFMPEG) $(LIB_OPENCV) 
 #--------- END OF ENVIRONMENT SETTING -------------
 

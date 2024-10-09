@@ -5,8 +5,11 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/objdetect/objdetect.hpp"
 
+#include "opencv2/bgsegm.hpp"
+
 using namespace std;
 using namespace cv;
+using namespace cv::bgsegm;
 
 
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
@@ -46,7 +49,10 @@ int main(void)
 #endif
 
 #if 1	
-	Mat frame, edge;
+	Mat frame, fgMask;
+
+	Ptr<BackgroundSubtractor> pMOG; //MOG Background subtractor
+	pMOG = createBackgroundSubtractorMOG();
 
 	//cout << cv::getBuildInformation() << endl;
 
@@ -67,6 +73,9 @@ int main(void)
 	
 	while (true) {
 		cap >> frame;
+
+		pMOG->apply(frame, fgMask);
+		cout << "createBackgroundSubtractorMOG" << endl;
 
 		if (frame.empty()) {
 			cerr << endl << "Frame empty!" << endl;
