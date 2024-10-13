@@ -43,9 +43,10 @@ int main(void)
 
 #if 1	
 	Mat frame, grey, fa, fb, fc;
+
+	//Size frsz(1920, 1080); //FHD
 	Size frsz(1280, 720); //HD
-	//Size frsz(640, 480); //HD
-:q
+	//Size frsz(720, 480); //SD
 
 	cout << "Built with OpenCV " << CV_VERSION << endl;
 
