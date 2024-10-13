@@ -3,14 +3,9 @@
 
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgproc.hpp"
-#include "opencv2/objdetect/objdetect.hpp"
-
-#include "opencv2/bgsegm.hpp"
 
 using namespace std;
 using namespace cv;
-using namespace cv::bgsegm;
-
 
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/opencv-arch-01.png"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/1920-1080-240405.mp4"
@@ -22,8 +17,6 @@ using namespace cv::bgsegm;
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_720_480_1_h265.mp4"
 //#define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1024_768_1_h265.mp4"
 #define src_name "/mnt/sd2/code/hdal/samples/koosvc-opencv/rec_1920_1080_1_h265.mp4"
-
-CascadeClassifier face_cascade;
 
 int main(void)
 {
@@ -50,8 +43,9 @@ int main(void)
 
 #if 1	
 	Mat frame, grey, fa, fb, fc;
-	//Size frsz(1280, 720); //HD
-	Size frsz(640, 480); //HD
+	Size frsz(1280, 720); //HD
+	//Size frsz(640, 480); //HD
+:q
 
 	cout << "Built with OpenCV " << CV_VERSION << endl;
 
